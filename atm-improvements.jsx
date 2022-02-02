@@ -45,7 +45,6 @@ const Account = () => {
   const [atmMode, setAtmMode] = React.useState("");
   const [validTransaction, setValidTransaction] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
-  const [selectionValue, setSelectionValue] = React.useState("");
 
   let status = `Account Balance $ ${totalState} `;
   // console.log(`Account Rendered with isDeposit: ${isDeposit}`);
