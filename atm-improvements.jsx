@@ -1,9 +1,15 @@
-const ATMDeposit = ({ onChange, isDeposit, atmMode, validTransaction }) => {
+const ATMDeposit = ({
+  onChange,
+  isDeposit,
+  atmMode,
+  validTransaction,
+  inputValue,
+}) => {
   const choice = ["Deposit", "Cash Back"];
 
-  console.log(`ATM isDeposit: ${isDeposit}`);
-  console.log(`atmMode: ${atmMode}`);
-  console.log(`validTranscation: ${validTransaction}`);
+  // console.log(`ATM isDeposit: ${isDeposit}`);
+  // console.log(`atmMode: ${atmMode}`);
+  // console.log(`validTranscation: ${validTransaction}`);
 
   let isValid = !validTransaction;
 
@@ -13,6 +19,7 @@ const ATMDeposit = ({ onChange, isDeposit, atmMode, validTransaction }) => {
         {atmMode && [
           <h3 id="1"> {choice[Number(!isDeposit)]}</h3>,
           <input
+            value={inputValue}
             id="number-input"
             type="number"
             width="200"
@@ -37,12 +44,15 @@ const Account = () => {
   const [isDeposit, setIsDeposit] = React.useState(true);
   const [atmMode, setAtmMode] = React.useState("");
   const [validTransaction, setValidTransaction] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState("");
+  const [selectionValue, setSelectionValue] = React.useState("");
 
   let status = `Account Balance $ ${totalState} `;
-  console.log(`Account Rendered with isDeposit: ${isDeposit}`);
+  // console.log(`Account Rendered with isDeposit: ${isDeposit}`);
 
   const handleChange = (event) => {
     let userEntered = event.target.value;
+    setInputValue(userEntered);
     if (userEntered <= 0) {
       setValidTransaction(false);
       return;
@@ -52,7 +62,7 @@ const Account = () => {
     } else {
       setValidTransaction(true);
     }
-    console.log(`handleChange ${event.target.value}`);
+    // console.log(`handleChange ${event.target.value}`);
     setDeposit(Number(event.target.value));
   };
 
@@ -60,7 +70,10 @@ const Account = () => {
     let newTotal = isDeposit ? totalState + deposit : totalState - deposit;
     setTotalState(newTotal);
     setValidTransaction(false);
+    setInputValue("");
     event.preventDefault();
+    setAtmMode("");
+    document.getElementById("mode-select").value = "no-selection";
   };
 
   const handleModeSelect = (event) => {
@@ -95,6 +108,7 @@ const Account = () => {
         isDeposit={isDeposit}
         atmMode={atmMode}
         validTransaction={validTransaction}
+        inputValue={inputValue}
       ></ATMDeposit>
     </form>
   );
